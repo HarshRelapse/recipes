@@ -1,0 +1,44 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"airwin2rack": {
+			"build-depends": [
+				"pkgconfig(alsa)",
+				"pkgconfig(egl)",
+				"pkgconfig(fontconfig)",
+				"pkgconfig(freetype2)",
+				"pkgconfig(gl)",
+				"pkgconfig(gtk+-x11-3.0)",
+				"pkgconfig(jack)",
+				"pkgconfig(libcurl)",
+				"pkgconfig(webkit2gtk-4.1)"
+			],
+			"depends": [
+				"soname(libc.so.6(x86_64))",
+				"soname(libfontconfig.so.1(x86_64))",
+				"soname(libfreetype.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/lib/clap/Airwindows Consolidated.clap",
+				"/usr/lib/lv2/Airwindows Consolidated.lv2/dsp.ttl",
+				"/usr/lib/lv2/Airwindows Consolidated.lv2/libAirwindows Consolidated.so",
+				"/usr/lib/lv2/Airwindows Consolidated.lv2/manifest.ttl",
+				"/usr/lib/lv2/Airwindows Consolidated.lv2/ui.ttl",
+				"/usr/lib/vst3/Airwindows Consolidated.vst3/Contents/Resources/moduleinfo.json",
+				"/usr/lib/vst3/Airwindows Consolidated.vst3/Contents/x86_64-linux/Airwindows Consolidated.so"
+			],
+			"name": "airwin2rack",
+			"provides": [
+				"soname(lv2/Airwindows Consolidated.lv2/libAirwindows Consolidated.so(x86_64))",
+				"soname(vst3/Airwindows Consolidated.vst3/Contents/x86_64-linux/Airwindows Consolidated.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "airwin2rack",
+	"source-release": "1",
+	"source-version": "2.12.0+DAWPlugin.16-08-2026"
+}

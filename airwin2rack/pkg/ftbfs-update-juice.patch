@@ -1,0 +1,29 @@
+From e04a71f411d834f1a97c69474b483e234982afcc Mon Sep 17 00:00:00 2001
+From: Harsh Relapse <274514232+HarshRelapse@users.noreply.github.com>
+Date: Sat, 15 Aug 2026 19:52:24 +0200
+Subject: [PATCH] ftbfs-update-juice
+
+---
+ src-juce/CMakeLists.txt | 6 +-----
+ 1 file changed, 1 insertion(+), 5 deletions(-)
+
+diff --git a/src-juce/CMakeLists.txt b/src-juce/CMakeLists.txt
+index 1f41088..16f3042 100644
+--- a/src-juce/CMakeLists.txt
++++ b/src-juce/CMakeLists.txt
+@@ -4,11 +4,7 @@ project(airwin-consolidated VERSION ${CMAKE_PROJECT_VERSION})
+ include ("../cmake/CPM.cmake")
+ 
+ 
+-if (DEFINED AWCO_ONJUCE7)
+-  set(AWCO_JUCETAG 7.0.12)
+-else()
+-  set(AWCO_JUCETAG 8.0.4)
+-endif()
++set(AWCO_JUCETAG 8.0.15)
+ 
+ message(STATUS "Getting JUCE TAG ${AWCO_JUCETAG}")
+ CPMAddPackage(
+-- 
+2.55.0
+
