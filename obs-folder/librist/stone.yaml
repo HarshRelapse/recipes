@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : librist
+version     : "0.2.20"
+release     : 1
+homepage    : https://code.videolan.org/rist/librist
+upstreams   :
+    - https://code.videolan.org/rist/librist/-/archive/v0.2.20/librist-v0.2.20.tar.gz : 9a2d16dcdb9fb067b7ba4259a3976ff6f8df9a62dbec7f32f19a0b60ec0c114a
+summary     : A library that can be used to easily add the RIST protocol to your application
+description : |
+    A library that can be used to easily add the RIST protocol to your application
+license     : BSD-2-Clause
+builddeps   :
+    - binary(brew)
+    - binary(objcopy)
+    - pkgconfig(gmp)
+    - pkgconfig(gnutls)
+    - pkgconfig(hogweed)
+    - pkgconfig(libcjson)
+    - pkgconfig(liblz4)
+    - pkgconfig(libmicrohttpd)
+    - pkgconfig(nettle)
+    - pkgconfig(threads)
+setup       : |
+    # from Arch, currently fails multicast tests
+    %patch %(pkgdir)/010-librist-disable-multicast-tests.patch
+
+    %meson
+build       : |
+    %meson_build
+install     : |
+    %meson_install
+check       : |
+    %meson_test

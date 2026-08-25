@@ -1,0 +1,64 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"srt": {
+			"build-depends": [
+				"cmake(OpenSSL)"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libcrypto.so.3(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/srt-ffplay",
+				"/usr/bin/srt-file-transmit",
+				"/usr/bin/srt-live-transmit",
+				"/usr/bin/srt-tunnel",
+				"/usr/lib/libsrt.so.1.5",
+				"/usr/lib/libsrt.so.1.5.6"
+			],
+			"name": "srt",
+			"provides": [
+				"binary(srt-ffplay)",
+				"binary(srt-file-transmit)",
+				"binary(srt-live-transmit)",
+				"binary(srt-tunnel)",
+				"soname(libsrt.so.1.5(x86_64))"
+			]
+		},
+		"srt-devel": {
+			"build-depends": [
+				"cmake(OpenSSL)"
+			],
+			"depends": [
+				"pkgconfig(libcrypto)",
+				"pkgconfig(openssl)",
+				"srt"
+			],
+			"files": [
+				"/usr/include/srt/access_control.h",
+				"/usr/include/srt/logging_api.h",
+				"/usr/include/srt/platform_sys.h",
+				"/usr/include/srt/srt.h",
+				"/usr/include/srt/udt.h",
+				"/usr/include/srt/version.h",
+				"/usr/lib/libsrt.so",
+				"/usr/lib/pkgconfig/haisrt.pc",
+				"/usr/lib/pkgconfig/srt.pc"
+			],
+			"name": "srt-devel",
+			"provides": [
+				"pkgconfig(haisrt)",
+				"pkgconfig(srt)"
+			]
+		}
+	},
+	"source-name": "srt",
+	"source-release": "1",
+	"source-version": "1.5.6"
+}

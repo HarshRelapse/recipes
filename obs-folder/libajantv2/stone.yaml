@@ -1,0 +1,40 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : libajantv2
+version     : "18.0.0"
+release     : 1
+homepage    : https://github.com/aja-video/libajantv2
+upstreams   :
+    - https://github.com/aja-video/libajantv2/archive/refs/tags/ntv2_18_0_0.tar.gz : 46ea35f131ac795107d953d86de63fe3a490594b8abb109ad2d1efcb2eeaf1fa
+summary     : Open-source library for AJA Video Systems desktop IO cards
+description : |
+    This is the open-source SDK for discovering, interrogating and controlling NTV2 professional video I/O devices from AJA Video Systems, Inc
+license     : MIT
+builddeps   :
+    - binary(python3)
+    - pkgconfig(libudev)
+setup       : |
+    # obs is unable to load the plugin otherwise
+    sed -i "s|NTV2DeviceInfoList    GetDeviceInfoList|NTV2DeviceInfoList CNTV2DeviceScanner::GetDeviceInfoList|g" ajantv2/src/ntv2devicescanner.cpp
+
+    %cmake \
+        -DAJANTV2_BUILD_OPENSOURCE=ON \
+        -DAJANTV2_BUILD_SHARED=ON \
+        -DAJANTV2_DISABLE_DEMOS=ON \
+        -DAJANTV2_DISABLE_DRIVER=ON \
+        -DAJANTV2_DISABLE_PLUGIN_LOAD=ON \
+        -DAJANTV2_DISABLE_TESTS=ON \
+        -DAJANTV2_DISABLE_TOOLS=OFF \
+        -DAJA_DISABLE_AMD=ON \
+        -DAJA_DISABLE_NVIDIA=ON \
+        -DAJA_DISABLE_QT=ON \
+        -DAJA_INSTALL_CMAKE=OFF \
+        -DAJA_INSTALL_HEADERS=ON \
+        -DAJA_INSTALL_MISC=OFF \
+        -DAJA_INSTALL_SOURCES=OFF \
+        -Wno-dev
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install
