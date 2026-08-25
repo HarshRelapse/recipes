@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : yabridge
+version     : "5.1.1+git.b580a9f7"
+release     : 1
+homepage    : https://github.com/robbert-vdh/yabridge
+upstreams   :
+    - git|https://github.com/robbert-vdh/yabridge.git : b580a9f7fc46509767ca156d4f92872552b9e571
+summary     : A modern and transparent way to use Windows VST2, VST3 and CLAP plugins on Linux
+description : |
+    Yet Another way to use Windows audio plugins on Linux. Yabridge seamlessly supports using both 32-bit and 64-bit Windows VST2, VST3, and CLAP plugins
+    in 64-bit Linux plugin hosts as if they were native plugins, with optional support for plugin groups to enable inter-plugin communication for VST2 plugins and quick startup times.
+    Its modern concurrent architecture and focus on transparency allows yabridge to be both fast and highly compatible, while also staying easy to debug and maintain.
+license     : GPL-3.0-or-later
+builddeps   :
+    - binary(ar)
+    - binary(clang)
+    - binary(patch)
+    - pkgconfig(dbus-1)
+    - pkgconfig(tomlplusplus)
+    - pkgconfig(xcb)
+    - wine-d2d1-devel
+networking  : true
+toolchain   : gnu
+setup       : |
+    %meson_unity \
+            --cross-file=cross-wine.conf \
+            --wrap-mode=default
+
+    cd tools/yabridgectl
+    %cargo_fetch
+build       : |
+    %meson_build
+
+    cd tools/yabridgectl
+    %cargo_build
+install     : |
+    pushd %(builddir)
+    %install_bin %(name)-host.exe{,.so}
+    %install_exe lib%(name)-{,chainloader-}{clap,vst2,vst3}.so -t  %(installroot)%(libdir)
+    popd
+
+    cd tools/yabridgectl
+    %cargo_install %(name)ctl
+tuning      :
+    # Breaks build otherwise
+    - lto: false
+paths       :
+    - /usr/lib/libyabridge-*
