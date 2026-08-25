@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : bitwig-studio
+version     : "6.1"
+release     : 2
+homepage    : https://www.bitwig.com
+upstreams   :
+    - https://www.bitwig.com/dl/Bitwig%20Studio/6.1/installer_linux/:
+        hash: 7496f09fc24d1ee499fe5290578ce849b6ed84374797827b86198e67901d0363
+        unpack: false
+        rename: bitwig-studio.deb
+summary     : Digital audio workstation for music production, remixing and live performance
+description : |
+    Digital audio workstation for music production, remixing and live performance
+license     : custom
+strip       : false
+builddeps   :
+    - binary(bsdtar-static)
+rundeps-exclude:
+    - 'soname\(libjvm\.so\(.*\)\)' #soname(libjvm.so(x86_64))
+    - 'soname\(libxcb.*\(386\)\)' #soname(libxcb-icccm.so.4(386))
+setup       : |
+    ar xf %(sourcedir)/bitwig-studio.deb
+    bsdtar-static xf data.tar.zst
+install     : |
+    %install_dir %(installroot)%(libdir)/
+    mv opt/bitwig-studio %(installroot)%(libdir)/bitwig-studio
+
+    %install_dir %(installroot)%(datadir)/
+    cp -a usr/share/* %(installroot)%(datadir)/
+
+    # Upstream ships usr/bin/bitwig-studio as an absolute symlink to
+    # /opt/bitwig-studio/bitwig-studio, so we make our own instead
+    %install_dir %(installroot)%(bindir)/
+    ln -srv %(installroot)%(libdir)/bitwig-studio/bitwig-studio %(installroot)%(bindir)/bitwig-studio
+
+    # Patch desktop file for statelessness
+    sed -i 's|/opt/bitwig-studio/bitwig-studio|%(bindir)/bitwig-studio|g' %(installroot)%(datadir)/applications/com.bitwig.BitwigStudio.desktop
