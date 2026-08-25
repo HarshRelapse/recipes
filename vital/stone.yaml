@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : vital
+version     : "1.6.4"
+release     : 1
+homepage    : https://vital.audio
+upstreams   :
+    # No upstreams, put VitalInstaller.zip into pkg/
+summary     : Spectral warping wavetable synth
+description : |
+    Spectral warping wavetable synth
+builddeps   :
+    - binary(unzip)
+license     : Apache-2.0
+setup       : |
+    unzip -d %(workdir)/VitalInstaller %(pkgdir)/VitalInstaller.zip
+install     : |
+    mkdir -p %(installroot)%(bindir)
+    mkdir -p %(installroot)%(libdir)/clap/
+    mkdir -p %(installroot)%(libdir)/vst3/
+    mkdir -p %(installroot)%(libdir)/vst/
+
+    %install_file %(workdir)/VitalInstaller/VitalInstaller/bin/Vital %(installroot)%(bindir)/Vital
+    %install_file %(workdir)/VitalInstaller/VitalInstaller/lib/clap/Vital.clap %(installroot)%(libdir)/clap/Vital.clap
+    cp -a %(workdir)/VitalInstaller/VitalInstaller/lib/vst3/Vital.vst3 %(installroot)%(libdir)/vst3/Vital.vst3
+    %install_file %(workdir)/VitalInstaller/VitalInstaller/lib/vst/Vital.so %(installroot)%(libdir)/vst/Vital.so
