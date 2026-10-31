@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+releases:
+  id: 139
+  rss: https://github.com/audacity/audacity/releases.atom
+security:
+  cpe:
+  - vendor: audacityteam
+    product: audacity

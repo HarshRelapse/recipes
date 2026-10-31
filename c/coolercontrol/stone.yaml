@@ -1,0 +1,50 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : coolercontrol
+version     : "4.3.1"
+release     : 1
+homepage    : https://gitlab.com/coolercontrol/coolercontrol
+upstreams   :
+    - https://gitlab.com/coolercontrol/coolercontrol/-/archive/4.3.1/coolercontrol-4.3.1.tar.gz : d00c1c91528b61c4e05de08bd39d5bf7256a48ee6c2461dd4c735e6792a71e5d
+summary     : Cooling device control for Linux
+description : |
+    CoolerControl is an open-source application for monitoring and controlling supported cooling devices
+    on Linux. It features a system daemon with a built-in Web UI, an optional desktop app, and a
+    comprehensive REST API.
+license     : GPL-3.0-or-later
+networking  : true
+builddeps   :
+    - pkgconfig(cups)
+    - pkgconfig(protobuf)
+    - pkgconfig(Qt6WebChannel)
+    - pkgconfig(Qt6WebEngineCore)
+    - binary(cargo)
+    - binary(cmake)
+    - binary(npm)
+rundeps     :
+    - binary(sensors)
+build       : |
+    %make
+install     : |
+    %make_install
+
+    ##### All install lines are modified from solus #####
+    # Install CoolerControl icons
+    %install_file %(workdir)/packaging/metadata/org.coolercontrol.CoolerControl.png %(installroot)/usr/share/icons/hicolor/256x256/org.coolercontrol.CoolerControl.png
+    %install_file %(workdir)/packaging/metadata/org.coolercontrol.CoolerControl-alert.png %(installroot)/usr/share/icons/hicolor/256x256/org.coolercontrol.CoolerControl-alert.png
+    %install_file %(workdir)/packaging/metadata/org.coolercontrol.CoolerControl-symbolic.svg %(installroot)/usr/share/icons/hicolor/symbolic/org.coolercontrol.CoolerControl-symbolic.svg
+    %install_file %(workdir)/packaging/metadata/org.coolercontrol.CoolerControl-symbolic-alert.svg %(installroot)/usr/share/icons/hicolor/symbolic/org.coolercontrol.CoolerControl-symbolic-alert.svg
+    %install_file %(workdir)/packaging/metadata/org.coolercontrol.CoolerControl.svg %(installroot)/usr/share/icons/hicolor/scalable/apps/org.coolercontrol.CoolerControl.svg
+
+    # Install .desktop file and metainfo
+    %install_exe %(workdir)/packaging/metadata/org.coolercontrol.CoolerControl.desktop %(installroot)/usr/share/applications/org.coolercontrol.CoolerControl.desktop
+    %install_file %(workdir)/packaging/metadata/org.coolercontrol.CoolerControl.metainfo.xml %(installroot)/usr/share/metainfo/org.coolercontrol.CoolerControl.metainfo.xml
+
+    # Install manpages
+    %install_file %(workdir)/packaging/man/coolercontrol.1 %(installroot)/usr/share/man/man1/coolercontrol.1
+    %install_file %(workdir)/packaging/man/coolercontrold.8 %(installroot)/usr/share/man/man8/coolercontrold.8
+
+    # Install service and preset
+    %install_file %(workdir)/packaging/systemd/coolercontrold.service %(installroot)%(libdir)/systemd/system/coolercontrold.service
+    %install_file %(pkgdir)/98-coolercontrold.preset %(installroot)%(libdir)/systemd/system-preset/98-coolercontrold.preset

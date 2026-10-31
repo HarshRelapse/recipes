@@ -1,0 +1,39 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : airwin2rack
+version     : "2.12.0+DAWPlugin.16-08-2026"
+release     : 1
+homepage    : https://github.com/baconpaul/airwin2rack
+upstreams   :
+    - https://github.com/baconpaul/airwin2rack/archive/refs/tags/DAWPlugin.tar.gz : 2de6144e01ea175c6623db818480e45032f36a53e177623722878a0947d0f450
+summary     : Airwindows, Consolidated into a single Library, Rack Plugin and DAW Plugin
+description : |
+    Airwindows, Consolidated into a single Library, Rack Plugin and DAW Plugin
+license     : MIT
+builddeps   :
+    - pkgconfig(alsa)
+    - pkgconfig(freetype2)
+    - pkgconfig(fontconfig)
+    - pkgconfig(egl)
+    - pkgconfig(gl)
+    - pkgconfig(jack)
+    - pkgconfig(libcurl)
+    - pkgconfig(webkit2gtk-4.1)
+    - pkgconfig(gtk+-x11-3.0)
+networking  : true
+setup       : |
+    %patch %(pkgdir)/ftbfs-update-juice.patch
+
+    %cmake \
+       -DBUILD_JUCE_PLUGIN=TRUE
+build       : |
+    %cmake_build
+install     : |
+    %install_dir %(installroot)/usr/lib/clap/
+    %install_dir %(installroot)/usr/lib/vst3/
+    %install_dir %(installroot)/usr/lib/lv2/
+
+    %install_file %(builddir)/awcons-products/*.clap %(installroot)/usr/lib/clap/
+    cp -rv %(builddir)/awcons-products/*.vst3 %(installroot)/usr/lib/vst3/
+    cp -rv %(builddir)/awcons-products/*.lv2 %(installroot)/usr/lib/lv2/

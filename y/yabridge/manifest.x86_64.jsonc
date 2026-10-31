@@ -1,0 +1,53 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"yabridge": {
+			"build-depends": [
+				"binary(ar)",
+				"binary(clang)",
+				"binary(patch)",
+				"pkgconfig(dbus-1)",
+				"pkgconfig(tomlplusplus)",
+				"pkgconfig(xcb)",
+				"wine-d2d1-devel"
+			],
+			"depends": [
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))",
+				"soname(libxcb.so.1(x86_64))"
+			],
+			"files": [
+				"/usr/bin/yabridge-host.exe",
+				"/usr/bin/yabridge-host.exe.so",
+				"/usr/bin/yabridgectl",
+				"/usr/lib/libyabridge-chainloader-clap.so",
+				"/usr/lib/libyabridge-chainloader-vst2.so",
+				"/usr/lib/libyabridge-chainloader-vst3.so",
+				"/usr/lib/libyabridge-clap.so",
+				"/usr/lib/libyabridge-vst2.so",
+				"/usr/lib/libyabridge-vst3.so"
+			],
+			"name": "yabridge",
+			"provides": [
+				"binary(yabridge-host.exe)",
+				"binary(yabridge-host.exe.so)",
+				"binary(yabridgectl)",
+				"soname(libyabridge-chainloader-clap.so(x86_64))",
+				"soname(libyabridge-chainloader-vst2.so(x86_64))",
+				"soname(libyabridge-chainloader-vst3.so(x86_64))",
+				"soname(libyabridge-clap.so(x86_64))",
+				"soname(libyabridge-vst2.so(x86_64))",
+				"soname(libyabridge-vst3.so(x86_64))",
+				"soname(yabridge-host.exe.so(x86_64))"
+			]
+		}
+	},
+	"source-name": "yabridge",
+	"source-release": "1",
+	"source-version": "5.1.1+git.b580a9f7"
+}

@@ -1,0 +1,42 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : reaper
+version     : "7.80"
+release     : 1
+homepage    : https://www.reaper.fm/
+upstreams   :
+    - https://www.reaper.fm/files/7.x/reaper780_linux_x86_64.tar.xz : 95f9e0093359741430fe152b695538fb08a106df052333ecec2056239c8d5c67
+summary     : REAPER is a complete digital audio production application for computers, offering a full multitrack audio and MIDI recording, editing, processing, mixing and mastering toolset
+description : |
+    REAPER is a complete digital audio production application for computers, offering a full multitrack audio and MIDI recording, editing, processing, mixing and mastering toolset
+license     : EULA
+builddeps   :
+    - binary(kbuildsycoca6)
+    - binary(which)
+    - binary(xdg-icon-resource)
+setup       : |
+    # Use kbuildsycoca6 instead of kbuildsycoca5
+    sed -i '606s/kbuildsycoca5/kbuildsycoca6/' install-reaper.sh
+    sed -i '608s/kbuildsycoca5/kbuildsycoca6/' install-reaper.sh
+environment : |
+    export XDG_DATA_HOME=%(builddir)/xdg/
+install     : |
+    ./install-reaper.sh \
+        --install %(installroot)/usr/lib \
+        --integrate-user-desktop
+
+    # Handled by moss anyways
+    rm -v %(installroot)/usr/lib/REAPER/uninstall-reaper.sh
+
+    # Desktop file path change
+    sed -i 's|/mason/install/usr/lib/REAPER/reaper|/usr/lib/REAPER/reaper|g' %(builddir)/xdg/applications/cockos-reaper.desktop
+
+    # Install XDG files
+    %install_file %(builddir)/xdg/applications/cockos-reaper.desktop -t %(installroot)/usr/share/applications/
+    %install_file %(builddir)/xdg/icons/hicolor/256x256/apps/* -t %(installroot)/usr/share/icons/hicolor/256x256/apps/
+    %install_file %(builddir)/xdg/mime/packages/* -t %(installroot)/usr/share/mime/packages/
+
+    # symlink /usr/lib/reaper to /usr/bin/reaper
+    mkdir -p %(installroot)%(bindir)
+    ln -srv %(installroot)/usr/lib/REAPER/reaper %(installroot)%(bindir)/%(name)

@@ -1,0 +1,13 @@
+diff --git a/src/hostapi/alsa/pa_linux_alsa.c b/src/hostapi/alsa/pa_linux_alsa.c
+--- a/src/hostapi/alsa/pa_linux_alsa.c
++++ b/src/hostapi/alsa/pa_linux_alsa.c
+@@ -4388,8 +4388,9 @@ static void *CallbackThreadFunc( void *userData )
+     return NULL;
+ 
+ error:
+-    unsignedWithHostApiRetval = result;
+-    goto end;
++    pthread_cleanup_pop( 1 );
++    PaAlsaStream_SetState( stream, paAlsaStreamStateStopped );
++    return (void *)(size_t)result;
+ }

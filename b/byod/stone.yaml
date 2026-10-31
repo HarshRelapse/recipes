@@ -1,0 +1,47 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : byod
+version     : "1.3.0"
+release     : 1
+homepage    : https://github.com/Chowdhury-DSP/BYOD
+upstreams   :
+    - git|https://github.com/Chowdhury-DSP/BYOD.git : 3562e3cd4dc569d526aa4610da7a17f79ab5211f # v1.3.0
+summary     : Build-your-own guitar distortion!
+description : |
+    BYOD is a guitar effects plugin with a customisable signal chain that allows users to create their own guitar distortion effects.
+    The plugin contains a wide variety of distortion effects from analog modelled circuits to purely digital creations,
+    along with some musical tone-shaping filters, and a handful of other useful signal processors.
+license     : GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(alsa)
+    - pkgconfig(freetype2)
+    - pkgconfig(fontconfig)
+    - pkgconfig(egl)
+    - pkgconfig(gl)
+    - pkgconfig(jack)
+    - pkgconfig(libcurl)
+    - pkgconfig(webkit2gtk-4.1)
+    - pkgconfig(gtk+-x11-3.0)
+    - pkgconfig(x11)
+networking  : true
+setup       : |
+    git submodule update --init --recursive
+
+    cd modules/JUCE
+
+    # FTBFS: Update JUCE to v8.0.15 to fix graphical issues
+    git checkout 91ad83ae34a81e0833b1a2b0866f54846370ae53
+
+    cd ../chowdsp_utils
+
+    # FTBFS: Upsteam?
+    git checkout 235eeb6179f9672f70933796eb09f199b24e71e6
+
+    cd ../..
+
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

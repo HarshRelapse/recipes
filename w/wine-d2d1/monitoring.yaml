@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2025 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+releases:
+  id: 391792
+  rss: https://github.com/giang17/wine/releases.atom
+security:
+  cpe:
+  - vendor: winehq
+    product: wine

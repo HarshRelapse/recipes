@@ -1,0 +1,57 @@
+/** Human readable report. This is not consumed by boulder */
+{
+	"manifest-version": "0.2",
+	"packages": {
+		"coolercontrol": {
+			"build-depends": [
+				"binary(cargo)",
+				"binary(cmake)",
+				"binary(npm)",
+				"pkgconfig(Qt6WebChannel)",
+				"pkgconfig(Qt6WebEngineCore)",
+				"pkgconfig(cups)",
+				"pkgconfig(protobuf)"
+			],
+			"depends": [
+				"binary(sensors)",
+				"interpreter(/usr/lib/ld-linux-x86-64.so.2(x86_64))",
+				"soname(ld-linux-x86-64.so.2(x86_64))",
+				"soname(libQt6Core.so.6(x86_64))",
+				"soname(libQt6DBus.so.6(x86_64))",
+				"soname(libQt6Gui.so.6(x86_64))",
+				"soname(libQt6Network.so.6(x86_64))",
+				"soname(libQt6WebChannel.so.6(x86_64))",
+				"soname(libQt6WebEngineCore.so.6(x86_64))",
+				"soname(libQt6WebEngineWidgets.so.6(x86_64))",
+				"soname(libQt6Widgets.so.6(x86_64))",
+				"soname(libc.so.6(x86_64))",
+				"soname(libgcc_s.so.1(x86_64))",
+				"soname(libm.so.6(x86_64))",
+				"soname(libstdc++.so.6(x86_64))"
+			],
+			"files": [
+				"/usr/bin/coolercontrol",
+				"/usr/bin/coolercontrold",
+				"/usr/lib/systemd/system-preset/98-coolercontrold.preset",
+				"/usr/lib/systemd/system/coolercontrold.service",
+				"/usr/share/applications/org.coolercontrol.CoolerControl.desktop",
+				"/usr/share/icons/hicolor/256x256/org.coolercontrol.CoolerControl-alert.png",
+				"/usr/share/icons/hicolor/256x256/org.coolercontrol.CoolerControl.png",
+				"/usr/share/icons/hicolor/scalable/apps/org.coolercontrol.CoolerControl.svg",
+				"/usr/share/icons/hicolor/symbolic/org.coolercontrol.CoolerControl-symbolic-alert.svg",
+				"/usr/share/icons/hicolor/symbolic/org.coolercontrol.CoolerControl-symbolic.svg",
+				"/usr/share/man/man1/coolercontrol.1",
+				"/usr/share/man/man8/coolercontrold.8",
+				"/usr/share/metainfo/org.coolercontrol.CoolerControl.metainfo.xml"
+			],
+			"name": "coolercontrol",
+			"provides": [
+				"binary(coolercontrol)",
+				"binary(coolercontrold)"
+			]
+		}
+	},
+	"source-name": "coolercontrol",
+	"source-release": "1",
+	"source-version": "4.3.1"
+}

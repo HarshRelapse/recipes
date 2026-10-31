@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : mingw-gcc
+version     : "16.2.0-2"
+release     : 1
+homepage    : https://github.com/AmanoTeam/mingw-gcc-cross
+upstreams   :
+    - https://replacemirror.com/extra/os/x86_64/mingw-w64-gcc-16.2.0-2-x86_64.pkg.tar.zst:
+        hash: 9fde71b655105ed8704fb1494a39f3b94d0a138df9dface881588e6cef4886f1
+        rename: mingw-w64-gcc
+    - https://replacemirror.com/extra/os/x86_64/mingw-w64-binutils-2.47-1-x86_64.pkg.tar.zst:
+        hash: a174f1b5894674b039d356878198e146053fa9527b282d6fac3acb46309b117d
+        rename: mingw-w64-binutils
+    - https://replacemirror.com/extra/os/x86_64/mingw-w64-crt-14.0.0-1-any.pkg.tar.zst:
+        hash: a809d9b6608235e5b693f1ebda97aa6c3539783c84509cb8db3306ef56ad0a4f
+        rename: mingw-w64-crt
+    - https://replacemirror.com/extra/os/x86_64/mingw-w64-headers-14.0.0-1-any.pkg.tar.zst:
+        hash: 5b8d6e83aa5c3b456d96a12a4af51518ddd71600d66048ced4b34c0b40a3fb19
+        rename: mingw-w64-headers
+    - https://replacemirror.com/extra/os/x86_64/mingw-w64-winpthreads-14.0.0-1-any.pkg.tar.zst:
+        hash: 21a4dd95e8a5f0b802d8585e59024f2cfbbd435cee31ed31b511159d9d10579b
+        rename: mingw-w64-winpthreads
+summary     : Precompiled MinGW-w64 GCC toolchain for Linux, macOS, BSD, and Android (Termux)
+description : |
+    A Clang and GCC cross-compiler targeting MinGW on Windows
+license     : GPL-3.0-or-later
+install     : |
+    cd ..
+
+    %install_dir %(installroot)/usr/
+
+    for dir in mingw-w64-gcc mingw-w64-binutils mingw-w64-crt mingw-w64-headers mingw-w64-winpthreads; do
+        cp -a $dir/* %(installroot)/usr/
+    done

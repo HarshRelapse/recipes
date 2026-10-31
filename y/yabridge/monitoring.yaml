@@ -1,0 +1,5 @@
+releases:
+  id: 391746
+  rss: https://github.com/robbert-vdh/yabridge/releases.atom
+security:
+  cpe: ~ # No CPE found, last checked (2026-08-15)

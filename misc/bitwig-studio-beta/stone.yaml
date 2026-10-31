@@ -1,0 +1,68 @@
+# SPDX-FileCopyrightText: 2026 AerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : bitwig-studio-beta
+version     : "6.1-Beta.6"
+release     : 1
+homepage    : https://www.bitwig.com
+upstreams   :
+    - https://www.bitwig.com/dl/Bitwig%20Studio/6.1%20Beta%206/installer_linux/:
+        hash: 5e20ba38ef53b1990435d2f13abde319d855762b33bd9d338920c530168f65c0
+        unpack: false
+        rename: bitwig-studio.deb
+summary     : Digital audio workstation for music production, remixing and live performance
+description : |
+    Digital audio workstation for music production, remixing and live performance
+license     : custom
+strip       : false
+builddeps   :
+    - binary(bsdtar-static)
+rundeps-exclude:
+    - 'soname\(libjvm\.so\(.*\)\)' #soname(libjvm.so(x86_64))
+    - 'soname\(libxcb.*\(386\)\)' #soname(libxcb-icccm.so.4(386))
+setup       : |
+    ar xf %(sourcedir)/bitwig-studio.deb
+    bsdtar-static xf data.tar.zst
+install     : |
+    %install_dir %(installroot)%(libdir)/
+    mv opt/bitwig-studio %(installroot)%(libdir)/bitwig-studio-beta
+
+    %install_dir %(installroot)%(datadir)/
+    cp -a usr/share/* %(installroot)%(datadir)/
+
+    # Upstream ships usr/bin/bitwig-studio as an absolute symlink to
+    # /opt/bitwig-studio/bitwig-studio, so we make our own instead
+    %install_dir %(installroot)%(bindir)/
+    ln -srv %(installroot)%(libdir)/bitwig-studio-beta/bitwig-studio %(installroot)%(bindir)/bitwig-studio-beta
+
+    # Patch desktop file for statelessness
+    sed -i 's|/opt/bitwig-studio/bitwig-studio|%(bindir)/bitwig-studio|g' %(installroot)%(datadir)/applications/com.bitwig.BitwigStudio.desktop
+
+    # Change .desktop fiile (From Arch Linux AUR recipe)
+    mv %(installroot)%(datadir)/applications/com.bitwig.BitwigStudio.desktop %(installroot)%(datadir)/applications/com.bitwig.BitwigStudioBeta.desktop
+    sed -i "s|/opt/bitwig-studio/bitwig-studio|%(bindir)/bitwig-studio-beta|g;
+            s|bitwig-studio|bitwig-studio-beta|g;
+            s|Bitwig Studio|Bitwig Studio Beta|g;
+            s|BitwigStudio|BitwigStudioBeta|g;
+            12s|bitwig-|bitwig-beta-|g" %(installroot)%(datadir)/applications/com.bitwig.BitwigStudioBeta.desktop
+
+    # Change appdata.xml (From Arch Linux AUR recipe)
+    mv %(installroot)%(datadir)/metainfo/com.bitwig.BitwigStudio.appdata.xml %(installroot)%(datadir)/metainfo/com.bitwig.BitwigStudioBeta.appdata.xml
+    sed -i "5s|BitwigStudio|BitwigStudioBeta|;
+            8s|Bitwig Studio|Bitwig Studio Beta|;
+            s|application/bitwig-|application/bitwig-beta-|g" %(installroot)%(datadir)/metainfo/com.bitwig.BitwigStudioBeta.appdata.xml
+
+    # Change mime (From Arch Linux AUR recipe)
+    mv %(installroot)%(datadir)/mime/packages/com.bitwig.BitwigStudio.xml %(installroot)%(datadir)/mime/packages/com.bitwig.BitwigStudioBeta.xml
+    sed -i "s|bitwig-|bitwig-beta-|g;
+            s|BitwigStudio|BitwigStudioBeta|g;
+            s|Studio |Studio Beta |g" %(installroot)%(datadir)/mime/packages/com.bitwig.BitwigStudioBeta.xml
+
+    # Change Icons (From Arch Linux AUR recipe)
+    cd %(installroot)%(datadir)/icons/hicolor/
+    for icon in 48x48/apps/*.png 128x128/apps/*.png scalable/apps/*.svg; do
+        [ -f "$icon" ] && mv "$icon" "${icon/Studio/StudioBeta}"
+    done
+    for icon in scalable/mimetypes/*.svg; do
+        [ -f "$icon" ] && mv "$icon" "${icon/Studio/StudioBeta}"
+    done

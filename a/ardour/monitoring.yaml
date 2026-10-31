@@ -1,0 +1,10 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+releases:
+  id: 104
+  rss: https://github.com/Ardour/ardour/releases.atom
+security:
+  cpe:
+  - vendor: ardour
+    product: ardour

@@ -1,0 +1,52 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : audacity
+version     : "4.0.0"
+release     : 1
+homepage    : https://www.audacityteam.org/
+upstreams   :
+    - https://github.com/audacity/audacity/archive/refs/tags/Audacity-4.0.0.tar.gz:
+        hash: 2cfc81b1515013f59ce7571aceabc8e1285739f96e2e40552545eff2e1e5a644
+        unpackdir: audacity
+    - https://codeload.github.com/musescore/muse_framework/tar.gz/d277b784b48de145637040db7e701143786c3fcd:
+        hash: 119f61d2e225e3633e605369e84bb15b9febceb10bf2d2ad4c758ff2898bfcde
+        unpackdir: audacity/muse
+    - https://codeload.github.com/musescore/muse_deps/tar.gz/6525edb3f415654d9eefd56ad528172a432d042a:
+        hash: c4a36d7fdc0639f829dc18b332a72066718410c56c06607db5df96bc45fb09a8
+        unpackdir: audacity/muse_deps
+summary     : Audio Editor
+description : |
+    Audacity is an easy-to-use, multi-track audio editor and recorder for Windows, macOS, GNU/Linux and other operating systems
+license     : GPL-3.0-or-later
+builddeps   :
+    - pkgconfig(alsa)
+    - pkgconfig(jack)
+    - pkgconfig(expat)
+    - pkgconfig(ogg)
+    - pkgconfig(vorbis)
+    - pkgconfig(flac)
+    - pkgconfig(opus)
+    # - pkgconfig(opusfile)
+    - pkgconfig(lame)
+    - pkgconfig(libmpg123)
+    # - pkgconfig(wavpack)
+    - pkgconfig(sndfile)
+    # - pkgconfig(portaudio-2.0)
+    - cmake(Qt6)
+    - cmake(Qt6Qml)
+    - cmake(Qt6Svg)
+    - cmake(Qt6ShaderTools)
+    - cmake(Qt6Core5Compat)
+    - cmake(Qt6NetworkAuth)
+    - cmake(Qt6LinguistTools)
+networking  : true
+setup       : |
+    # FTBFS: From fedora RPM (https://github.com/rpmfusion/audacity-freeworld/blob/master)
+    %patch %(pkgdir)/audacity-soxr-conditional-simd32-sources.patch
+
+    %cmake
+build       : |
+    %cmake_build
+install     : |
+    %cmake_install

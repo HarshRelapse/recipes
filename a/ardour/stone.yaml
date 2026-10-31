@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2026 aerynOS Developers
+# SPDX-License-Identifier: MPL-2.0
+
+name        : ardour
+version     : "9.8"
+release     : 1
+homepage    : https://ardour.org/
+upstreams   :
+    - git|https://github.com/Ardour/ardour.git : 22ed8656c2533e325322ff11831448e5123e0d4b # v9.8
+summary     : Record, Edit, and Mix on Linux, macOS and Windows
+description : |
+    Record, Edit, and Mix on Linux, macOS and Windows
+license     : GPL-2.0-or-later
+builddeps   :
+    - binary(python3)
+    - cmake(Boost)
+    - pkgconfig(alsa)
+    - pkgconfig(libpulse)
+    - pkgconfig(glib-2.0)
+    - pkgconfig(glibmm-2.4)
+    - pkgconfig(sndfile)
+    - pkgconfig(libcurl)
+    - pkgconfig(libarchive)
+    # - pkgconfig(liblo)
+    - pkgconfig(taglib)
+    # - pkgconfig(vamp-sdk)
+    # - pkgconfig(vamp-hostsdk)
+    # - pkgconfig(rubberband)
+    - pkgconfig(libusb-1.0)
+setup       : |
+    ./waf configure
+build       : |
+    ./waf
+install     : |
+    ./waf install
